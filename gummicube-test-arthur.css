@@ -1,1 +1,51 @@
 /* CSS declarations go here */
+body {    
+  background: #f7f7f7;
+}
+
+.app {
+  max-width: 980px;
+  margin: 0 auto;
+}
+
+.container {
+  padding: 10px 0px 20px;
+  margin: 65px 25px 10px;
+
+  border-radius: 3px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+header {
+  padding: 0 10px;
+  margin-bottom: 20px;
+  background: #93d1e6;
+}
+h1 {
+  margin: 0;
+  font-size: 1.4em;
+  color: #fff;
+}
+
+
+.button {
+  padding: 9px 0 8px 0;
+  border: 1px solid #1ba2d0;
+  color: #1ba2d0;
+  background: #fff;
+  transition: border .5s, background .5s;
+}
+@media only screen and (min-width: 40.063em) { 
+  .button {
+    margin-top: 20px;
+  }
+}
+.button:hover {
+  background: #1ba2d0;
+  color: #fff;
+}
+
+.search .button {
+  width: 100%;
+} 

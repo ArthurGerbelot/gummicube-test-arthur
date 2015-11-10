@@ -8,10 +8,9 @@ Search = React.createClass({
   },
 
   handleChange() {
-    console.log(this.refs['search-input']);
-    /*this.setState({
-      search_value: this
-    })*/
+    this.setState({
+      search_value: this.refs['search-input'].value
+    })
   },
 
   handleSubmit(e) {
@@ -19,7 +18,7 @@ Search = React.createClass({
     var url = this.state.search_value;
 
     Meteor.http.call("GET", url, function(err, result) { 
-      console.log("-- CLIENT SIDE --");
+      console.log("-- SERVER SIDE --");
       console.log("err : ", err);
       console.log("result : ", result);
     });

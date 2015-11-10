@@ -20,19 +20,19 @@ body {
 header {
   padding: 0 10px;
   margin-bottom: 20px;
-  background: #93d1e6;
+  background: #a0e693;
 }
 h1 {
   margin: 0;
-  font-size: 1.4em;
+  font-size: 1.4em; 
   color: #fff;
 }
 
 
 .button {
   padding: 9px 0 8px 0;
-  border: 1px solid #1ba2d0;
-  color: #1ba2d0;
+  border: 1px solid #71d01b;
+  color: #59b308;
   background: #fff;
   transition: border .5s, background .5s;
 }
@@ -41,19 +41,21 @@ h1 {
     margin-top: 20px;
   }
 }
-.button:hover {
-  background: #1ba2d0;
+.button:hover, .button:active, .button:focus, .button:visited {
+  background: #71d01b;
   color: #fff;
 }
 
 .search .button {
   width: 100%;
 } 
-
+.search .radios * {
+  line-height: 37px;
+}
 
 h3 {
   font-size: 1.2em;
-
+  color: #59b308;
 }
 .results__result {
   background: #f3f3f3;

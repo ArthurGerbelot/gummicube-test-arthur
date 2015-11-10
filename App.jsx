@@ -10,24 +10,33 @@ App = React.createClass({
     }
   },
 
-  handleRequest: function(url) {
+  handleRequest: function(request) {
+    console.log("REQUEST : ", request);
     var self = this;
     this.setState({
       is_loading: true,
     });
 
-    Meteor.call('makeRequest', url, function(err, result) {
-      if (!err && result && (result.statusCode === 200)) {
-        var content = result.content;
-        // content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
+    if (request.type === 'input') {
+      Meteor.call('makeRequest', request.value, function(err, result) {
+        if (!err && result && (result.statusCode === 200)) {
+          var content = result.content;
+          // content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
 
-        var results = self.getResults(content);
-        self.setState({
-          is_loading: false,
-          results: results
-        });
-      }
-    });
+          var results = self.getResults(content);
+          self.setState({
+            is_loading: false,
+            results: results
+          });
+        }
+      });
+    } else {
+      var results = self.getResults(request.value);
+      self.setState({
+        is_loading: false,
+        results: results
+      });
+    }
   },
 
   render() {

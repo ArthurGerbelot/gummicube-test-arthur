@@ -73,7 +73,7 @@ Search = React.createClass({
             id="type-input"
             checked={this.state.type === 'input'}
             onChange={this.handleTypeChange} />
-          <label htmlFor="type-input">Input</label>
+          <label htmlFor="type-input">URL</label>
           <input
             type="radio"
             name="type"
@@ -82,7 +82,7 @@ Search = React.createClass({
             id="type-textarea"
             checked={this.state.type === 'textarea'}
             onChange={this.handleTypeChange} />
-          <label htmlFor="type-textarea">Textarea</label>
+          <label htmlFor="type-textarea">Text</label>
         </div>
       </div>
     );

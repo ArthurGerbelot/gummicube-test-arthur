@@ -8,10 +8,15 @@ Search = React.createClass({
   },
 
   getInitialState() {
+    var textarea_value = 'Apple <div>bacon</div> cherry, apple cherry, <strong>bacon</strong>\n'
+     + 'cherry. Bacon apple\n'
+     + '<ul><li>cherry</li><li>apple</li><li>bacon</li><li>cherry</li></ul>\n'
+     + 'bacon.';
+
     return {
       type: 'input',
       input_value: 'http://gummicube-test-arthur.meteor.com/Gutenberg.txt',
-      textarea_value: 'Apple bacon cherry, apple cherry, bacon      cherry. Bacon\napple cherry apple\n\nbacon cherry bacon.',
+      textarea_value: textarea_value,
     }
   },
 

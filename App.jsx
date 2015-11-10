@@ -30,8 +30,6 @@ App = React.createClass({
           }, 3000);
         } else {
           var content = result.content;
-          // content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
-
           var results = self.getResults(content);
           self.setState({
             is_loading: false,
@@ -92,7 +90,7 @@ App = React.createClass({
     var count_pairs = {};
 
     // Remove HTML, transform to lower case, replace new line and multiple space par single space. Finally split each words
-    var words = content.replace(/<[^>]*>/g, '').toLowerCase().replace( /\n/g, " " ).replace(/ +/g, " ").split(' ');
+    var words = content.replace(/<[^>]*>/g, ' ').toLowerCase().replace( /\n/g, " ").replace(/ +/g, " ").split(' ');
     // Remove empty words
     words = _.filter(words, function(w) { return !!w; });
     // Calculate length before loop

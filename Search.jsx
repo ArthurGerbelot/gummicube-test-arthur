@@ -1,9 +1,13 @@
 // Search component
 Search = React.createClass({ 
 
+  propTypes: {
+    handleNewContent: React.PropTypes.func.isRequired
+  },
+
   getInitialState() { 
     return {
-      search_value: 'http://www.gutenberg.org/cache/epub/6133/pg6133.txt'
+      search_value: '/Gutenberg.txt'
     }
   },
 
@@ -17,17 +21,24 @@ Search = React.createClass({
     e.preventDefault();
     var url = this.state.search_value;
 
-    Meteor.http.call("GET", url, function(err, result) { 
-      console.log("-- SERVER SIDE --");
-      console.log("err : ", err);
-      console.log("result : ", result);
-    });
+    console.log();
+
+    // Meteor.http.call("GET", url, function(err, result) { 
+    //   console.log("-- SERVER SIDE --");
+    //   console.log("err : ", err);
+    //   console.log("result : ", result);
+    // });
     // Make a request from server 
     Meteor.call('makeRequest', url, function(err, result) {
       console.log("-- SERVER SIDE --");
       console.log("err : ", err);
       console.log("result : ", result);
     });
+  
+    var content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
+    console.log ("handleSubmit : ", content);
+    this.props.handleNewContent(content);
+
   }, 
 
   render() {

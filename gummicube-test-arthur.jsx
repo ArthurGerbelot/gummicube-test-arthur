@@ -2,7 +2,6 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     makeRequest: function (url) {
-      console.log("MAKE REQUEST"); 
       this.unblock();
       return HTTP.call("GET", url);
     }

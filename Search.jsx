@@ -18,8 +18,14 @@ Search = React.createClass({
     e.preventDefault();
     var url = this.state.search_value;
 
+    Meteor.http.call("GET", url, function(err, result) { 
+      console.log("-- CLIENT SIDE --");
+      console.log("err : ", err);
+      console.log("result : ", result);
+    });
     // Make a request from server 
     Meteor.call('makeRequest', url, function(err, result) {
+      console.log("-- SERVER SIDE --");
       console.log("err : ", err);
       console.log("result : ", result);
     });

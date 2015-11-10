@@ -2,13 +2,7 @@ if (Meteor.isServer) {
 
   Meteor.methods({
     makeRequest: function (url) {
-      console.log(" -> Url :  ", url);
-      HTTP.call("GET", url, function(err, result) {
-
-        console.log(" -- -> err :  ", err);
-        console.log(" -- -> Object.keys(result):  ", Object.keys(result));
-
-      });
+      return HTTP.call("GET", url);
     }
   });
 }

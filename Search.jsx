@@ -2,12 +2,13 @@
 Search = React.createClass({ 
 
   propTypes: {
-    handleNewContent: React.PropTypes.func.isRequired
+    is_loading: React.PropTypes.bool.isRequired,
+    handleRequest: React.PropTypes.func.isRequired
   },
 
   getInitialState() { 
     return {
-      search_value: '/Gutenberg.txt'
+      search_value: 'http://www.arthurgerbelot.com/rav/Gutenberg.txt'
     }
   },
 
@@ -21,24 +22,7 @@ Search = React.createClass({
     e.preventDefault();
     var url = this.state.search_value;
 
-    console.log();
-
-    // Meteor.http.call("GET", url, function(err, result) { 
-    //   console.log("-- SERVER SIDE --");
-    //   console.log("err : ", err);
-    //   console.log("result : ", result);
-    // });
-    // Make a request from server 
-    Meteor.call('makeRequest', url, function(err, result) {
-      console.log("-- SERVER SIDE --");
-      console.log("err : ", err);
-      console.log("result : ", result);
-    });
-  
-    var content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
-    console.log ("handleSubmit : ", content);
-    this.props.handleNewContent(content);
-
+    this.props.handleRequest(url);
   }, 
 
   render() {
@@ -57,9 +41,18 @@ Search = React.createClass({
           </label>
         </div>
         <div className="column large-2 medium-4">
-          <input type="submit" className="button" />
+          {this.renderSubmit()}
         </div>
       </form>
     );
+  },
+
+  renderSubmit() {
+    console.log("props: ", this.props);
+    if (this.props.is_loading) {
+      return <span>Loading</span>
+    } else {
+      return <input type="submit" className="button" />
+    }
   }
 });

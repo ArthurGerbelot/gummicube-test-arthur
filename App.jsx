@@ -3,17 +3,31 @@ App = React.createClass({
 
   getInitialState() {
     return {
+      count_displayed_results: 10,
       content: '',
-      results: []
+      results: [],
+      is_loading: false,
     }
   },
 
-  handleNewContent: function(content) {
-    console.log ("handleNewContent : ", content);
+  handleRequest: function(url) {
+    var self = this;
     this.setState({
-      content: content,
-      results: this.getResults(content)
-    })
+      is_loading: true,
+    });
+
+    Meteor.call('makeRequest', url, function(err, result) {
+      if (!err && result && (result.statusCode === 200)) {
+        var content = result.content;
+        // content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
+
+        var results = self.getResults(content);
+        self.setState({
+          is_loading: false,
+          results: results
+        });
+      }
+    });
   },
 
   render() {
@@ -31,7 +45,7 @@ App = React.createClass({
             </div>
 
             <div className="column">
-              {this.state.content}
+              {this.renderResults()}
             </div>
 
           </div>
@@ -41,10 +55,19 @@ App = React.createClass({
   },
 
   renderSearch() {
-    return <Search handleNewContent={this.handleNewContent}/>
+    return <Search 
+      handleRequest={this.handleRequest} 
+      is_loading={this.state.is_loading}/>
   },
 
+  renderResults() {
+    if (this.state.results.length === 0) {
+      return null;
+    }
+    return <Results results={this.state.results} />
+  },
 
+  // Can be moved on external libary
   getResults(content) {
     // Declare count pair object {'pair': count}
     var count_pairs = {}; 
@@ -53,12 +76,12 @@ App = React.createClass({
     // Remove empty (between multi space for example)
     words = _.filter(words, function(w) { return !!w; });
     // Calculate length before loop
-    var length = words.length;
+    var count_word = words.length;
 
     // Loop on each words to calcule frequency with next one
     _.each(words, function(w, idx) {
       // Last one have no pair `N  N+1`
-      if (w && (idx < length - 1) && words[idx + 1]) {
+      if (w && (idx < count_word - 1) && words[idx + 1]) {
         // Get next word. Also, `A C <> A, C` but `A C == A C`, so remove second word punctuation
         var next_word = words[idx + 1].replace(/[.,-\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         var pair = w + ' ' + next_word;
@@ -67,10 +90,7 @@ App = React.createClass({
     });
 
     var slice_count = this.state.count_displayed_results;
-    // Transform {a:1, b:2, ..} to [[a, 1], [b, 2], ..], sort, get last elements (higher) and reverse 
-    var results = _.chain(count_pairs).pairs().sortBy(function(a){ return a[1] }).value().slice(-slice_count).reverse();
-  
-    console.log("Results : ", results);
-    return results;
+    // Transform {a:1, b:2, ..} to [[a, 1], [b, 2], ..], and sort (highter is last)
+    return _.chain(count_pairs).pairs().sortBy(function(a){ return a[1] }).value().slice(-10).reverse();
   }
 });

@@ -49,3 +49,21 @@ h1 {
 .search .button {
   width: 100%;
 } 
+
+
+h3 {
+  font-size: 1.2em;
+
+}
+.results__result {
+  background: #f3f3f3;
+  line-height: 2.5em;
+}
+.results__result:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+select {
+  display: inline-block;
+  max-width: 100px;
+}

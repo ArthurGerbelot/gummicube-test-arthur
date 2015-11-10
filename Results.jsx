@@ -1,5 +1,5 @@
 // Search component
-Results = React.createClass({ 
+Results = React.createClass({
 
   propTypes: {
     results: React.PropTypes.array.isRequired
@@ -10,7 +10,7 @@ Results = React.createClass({
       <div className="results">
         <div className="row">
           <div className="column">
-            <h3>Top results</h3>
+            <h3><i className="fa fa-star-o"/>Top results</h3>
           </div>
         </div>
         <div className="row">
@@ -23,7 +23,7 @@ Results = React.createClass({
   renderResults() {
     return _.map(this.props.results, function(r) {
       return (
-        <div className="results__result column">
+        <div className="results__result column" key={r[0] + r[1]}>
           {r[0] + ' - ' + r[1]}
         </div>
       );

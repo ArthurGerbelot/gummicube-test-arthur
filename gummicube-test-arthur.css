@@ -1,5 +1,5 @@
 /* CSS declarations go here */
-body {    
+body {
   background: #f7f7f7;
 }
 
@@ -24,7 +24,7 @@ header {
 }
 h1 {
   margin: 0;
-  font-size: 1.4em; 
+  font-size: 1.4em;
   color: #fff;
 }
 
@@ -36,7 +36,7 @@ h1 {
   background: #fff;
   transition: border .5s, background .5s;
 }
-@media only screen and (min-width: 40.063em) { 
+@media only screen and (min-width: 40.063em) {
   .button {
     margin-top: 20px;
   }
@@ -48,14 +48,29 @@ h1 {
 
 .search .button {
   width: 100%;
-} 
+}
 .search .radios * {
   line-height: 37px;
+}
+.loading {
+  margin-top: 22px;
+  text-align: center;
+  font-size: 2em;
+  color: #a0e693;
+}
+.loading i {
+  transition: all .5s;
+}
+.is-error {
+  color: #e69393;
 }
 
 h3 {
   font-size: 1.2em;
   color: #59b308;
+}
+h3 i {
+  margin-right: 0.5em;
 }
 .results__result {
   background: #f3f3f3;

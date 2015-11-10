@@ -1,12 +1,13 @@
 // Search component
-Search = React.createClass({ 
+Search = React.createClass({
 
   propTypes: {
     is_loading: React.PropTypes.bool.isRequired,
+    is_error: React.PropTypes.bool.isRequired,
     handleRequest: React.PropTypes.func.isRequired
   },
 
-  getInitialState() { 
+  getInitialState() {
     return {
       type: 'input',
       input_value: 'http://gummicube-test-arthur.meteor.com/Gutenberg.txt',
@@ -36,11 +37,11 @@ Search = React.createClass({
       type: type,
       value: this.state[type + '_value']
     });
-  }, 
+  },
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="search row"> 
+      <form onSubmit={this.handleSubmit} className="search row">
         <div className="column large-3 medium-4">
           {this.renderRadio()}
         </div>
@@ -59,21 +60,21 @@ Search = React.createClass({
       <div>
         <label>Type</label>
         <div className="radios">
-          <input 
-            type="radio" 
-            name="type" 
-            ref="type-input" 
-            value="input" 
+          <input
+            type="radio"
+            name="type"
+            ref="type-input"
+            value="input"
             id="type-input"
-            checked={this.state.type === 'input'} 
+            checked={this.state.type === 'input'}
             onChange={this.handleTypeChange} />
           <label htmlFor="type-input">Input</label>
-          <input 
-            type="radio" 
-            name="type" 
-            ref="type-textarea" 
-            value="textarea" 
-            id="type-textarea" 
+          <input
+            type="radio"
+            name="type"
+            ref="type-textarea"
+            value="textarea"
+            id="type-textarea"
             checked={this.state.type === 'textarea'}
             onChange={this.handleTypeChange} />
           <label htmlFor="type-textarea">Textarea</label>
@@ -87,11 +88,11 @@ Search = React.createClass({
       return (
         <label>
           Insert URL
-          <input 
-            type="text" 
-            name="search-input" 
-            ref="search-input" 
-            value={this.state.input_value} 
+          <input
+            type="text"
+            name="search-input"
+            ref="search-input"
+            value={this.state.input_value}
             onChange={this.handleChange}
           />
         </label>
@@ -100,11 +101,11 @@ Search = React.createClass({
       return (
         <label>
           Insert Text
-          <textarea 
-              name="search-textarea" 
-              ref="search-textarea" 
+          <textarea
+              name="search-textarea"
+              ref="search-textarea"
               rows="4"
-              value={this.state.textarea_value} 
+              value={this.state.textarea_value}
               onChange={this.handleChange} />
         </label>
       );
@@ -113,7 +114,12 @@ Search = React.createClass({
 
   renderSubmit() {
     if (this.props.is_loading) {
-      return <span>Loading</span>
+      var classes = "fa"
+      return (
+        <div className="loading">
+          <i className={(this.props.is_error ? "fa fa-exclamation-triangle is-error" : "fa fa-spinner fa-spin")} />
+        </div>
+      );
     } else {
       return <input type="submit" className="button" />
     }

@@ -1,5 +1,5 @@
 // App component - represents the whole app
-App = React.createClass({ 
+App = React.createClass({
 
   getInitialState() {
     return {
@@ -7,11 +7,11 @@ App = React.createClass({
       content: '',
       results: [],
       is_loading: false,
+      is_error: false,
     }
   },
 
   handleRequest: function(request) {
-    console.log("REQUEST : ", request);
     var self = this;
     this.setState({
       is_loading: true,
@@ -19,7 +19,16 @@ App = React.createClass({
 
     if (request.type === 'input') {
       Meteor.call('makeRequest', request.value, function(err, result) {
-        if (!err && result && (result.statusCode === 200)) {
+        if (err || !result || (result.statusCode !== 200)) {
+          console.log("Error received: ", err);
+          self.setState({is_error: true});
+          setTimeout(function() {
+            self.setState({
+              is_error: false,
+              is_loading: false
+            });
+          }, 3000);
+        } else {
           var content = result.content;
           // content = "Apple bacon cherry, apple     cherry, bacon\n cherry. Bacon apple cherry apple bacon cherry bacon.";
 
@@ -48,7 +57,7 @@ App = React.createClass({
             <header className="column">
               <h1>Gummicube challenge</h1>
             </header>
-        
+
             <div className="column">
               {this.renderSearch()}
             </div>
@@ -64,9 +73,10 @@ App = React.createClass({
   },
 
   renderSearch() {
-    return <Search 
-      handleRequest={this.handleRequest} 
-      is_loading={this.state.is_loading}/>
+    return <Search
+      handleRequest={this.handleRequest}
+      is_loading={this.state.is_loading}
+      is_error={this.state.is_error}/>
   },
 
   renderResults() {
@@ -79,10 +89,11 @@ App = React.createClass({
   // Can be moved on external libary
   getResults(content) {
     // Declare count pair object {'pair': count}
-    var count_pairs = {}; 
-    // Split each new line and word
-    var words = content.toLowerCase().replace( /\n/g, " " ).split(' '); 
-    // Remove empty (between multi space for example)
+    var count_pairs = {};
+
+    // Remove HTML, transform to lower case, replace new line and multiple space par single space. Finally split each words
+    var words = content.replace(/<[^>]*>/g, '').toLowerCase().replace( /\n/g, " " ).replace(/ +/g, " ").split(' ');
+    // Remove empty words
     words = _.filter(words, function(w) { return !!w; });
     // Calculate length before loop
     var count_word = words.length;
@@ -99,7 +110,8 @@ App = React.createClass({
     });
 
     var slice_count = this.state.count_displayed_results;
-    // Transform {a:1, b:2, ..} to [[a, 1], [b, 2], ..], and sort (highter is last)
+
+    // Transform {a:1, b:2, ..} to [[a, 1], [b, 2], ..], sort (highter is last), splice last ten and reverse (highter is first)
     return _.chain(count_pairs).pairs().sortBy(function(a){ return a[1] }).value().slice(-10).reverse();
   }
 });
